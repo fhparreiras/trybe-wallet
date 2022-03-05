@@ -1,5 +1,8 @@
 import React from 'react';
-import Login from './components/Login';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Login from './pages/Login';
+import { saveEmail } from './actions';
 import './App.css';
 
 class App extends React.Component {
@@ -7,6 +10,7 @@ class App extends React.Component {
     inputEmail: '',
     inputPassword: '',
     isButtonDisabled: true,
+    isLogin: false,
   };
 
   handleEmailChange = (event) => {
@@ -31,8 +35,21 @@ class App extends React.Component {
       : this.setState({ isButtonDisabled: true });
   }
 
+  handleClick = () => {
+    const { isButtonDisabled } = this.state;
+    if (!isButtonDisabled) {
+      this.setState({
+        isLogin: true,
+        inputEmail: '',
+        inputPassword: '',
+      });
+      const { dispatch } = this.props;
+      dispatch(saveEmail(this.state));
+    }
+  }
+
   render() {
-    const { inputEmail, inputPassword, isButtonDisabled } = this.state;
+    const { inputEmail, inputPassword, isButtonDisabled, isLogin } = this.state;
     return (
       <div className="main-container">
         <Login
@@ -43,9 +60,10 @@ class App extends React.Component {
           isButtonDisabled={ isButtonDisabled }
           onButtonClick={ this.handleClick }
         />
+        { isLogin && <Redirect to="/carteira" />}
       </div>
     );
   }
 }
 
-export default App;
+export default connect()(App);
