@@ -8,16 +8,16 @@
 // });
 import { SAVE_EMAIL } from '../actions';
 
-function userReducer(state = {}, action) {
+function user(state = {}, action) {
   switch (action.type) {
   case SAVE_EMAIL:
     return {
       ...state,
-      email: action.payload,
+      ...action.payload,
     };
   default:
     return state;
   }
 }
 
-export default userReducer;
+export default user;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from './pages/Login';
@@ -36,15 +37,15 @@ class App extends React.Component {
   }
 
   handleClick = () => {
-    const { isButtonDisabled } = this.state;
+    const { isButtonDisabled, inputEmail } = this.state;
     if (!isButtonDisabled) {
+      const { dispatch } = this.props;
+      dispatch(saveEmail(inputEmail));
       this.setState({
         isLogin: true,
         inputEmail: '',
         inputPassword: '',
       });
-      const { dispatch } = this.props;
-      dispatch(saveEmail(this.state));
     }
   }
 
@@ -66,4 +67,11 @@ class App extends React.Component {
   }
 }
 
-export default connect()(App);
+const mapStateToProps = (state) => ({
+  email: state.inputEmail,
+});
+
+App.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+export default connect(mapStateToProps)(App);
