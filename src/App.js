@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from './pages/Login';
 import { saveEmail } from './actions';
 import './App.css';
+import Wallet from './pages/Wallet';
 
 class App extends React.Component {
   state = {
@@ -53,14 +54,17 @@ class App extends React.Component {
     const { inputEmail, inputPassword, isButtonDisabled, isLogin } = this.state;
     return (
       <div className="main-container">
-        <Login
-          inputEmail={ inputEmail }
-          inputPassword={ inputPassword }
-          onEmailChange={ this.handleEmailChange }
-          onPasswordChange={ this.handlePasswordChange }
-          isButtonDisabled={ isButtonDisabled }
-          onButtonClick={ this.handleClick }
-        />
+        <Route exact path="/">
+          <Login
+            inputEmail={ inputEmail }
+            inputPassword={ inputPassword }
+            onEmailChange={ this.handleEmailChange }
+            onPasswordChange={ this.handlePasswordChange }
+            isButtonDisabled={ isButtonDisabled }
+            onButtonClick={ this.handleClick }
+          />
+        </Route>
+        <Route path="/carteira" component={ Wallet } />
         { isLogin && <Redirect to="/carteira" />}
       </div>
     );
