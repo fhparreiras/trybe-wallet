@@ -78,11 +78,17 @@
   width: 100vw;
 }
 
+.header-master {
+  display: flex;
+  flex-flow: column wrap;
+}
+
 .container-header {
   align-items: center;
   background-color: rgb(47, 54, 64);
   color: white;
   display: flex;
+  flex-flow: row wrap;
   height: 80px;
   justify-content: space-between;
   width: 100vw;
@@ -106,4 +112,12 @@
   justify-content: space-evenly;
   max-width: 500px;
   padding-right: 10px;
+}
+
+.inputs-panel {
+  align-items: center;
+  display: flex;
+  flex-basis: 100%;
+  height: 70px;
+  justify-content: space-evenly;
 }

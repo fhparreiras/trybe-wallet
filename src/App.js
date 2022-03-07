@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from './pages/Login';
-import { saveEmail } from './actions';
+import { fetchCurrencies, saveEmail } from './actions';
 import './App.css';
 import Wallet from './pages/Wallet';
 
@@ -14,6 +14,11 @@ class App extends React.Component {
     isButtonDisabled: true,
     isLogin: false,
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchCurrencies());
+  }
 
   handleEmailChange = (event) => {
     this.setState({
