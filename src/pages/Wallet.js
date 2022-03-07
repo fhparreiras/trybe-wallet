@@ -11,9 +11,22 @@ class Wallet extends React.Component {
       <div className="container-header">
         <img src={ walletLogo } alt="Logo carteira" width="60" />
         <span className="header-title">TrybeWallet</span>
-        <span className="header-email" data-testid="email-field">
-          { email }
-        </span>
+        <div className="header-data-container">
+          <span className="header-email" data-testid="email-field">
+            { 'Email: '}
+            { email }
+          </span>
+          <span data-testid="total-field">
+            { 'Despesa Total: '}
+            {/* símbolo moeda */}
+            { ' ' }
+            { '0' }
+          </span>
+          <span data-testid="header-currency-field">
+            { 'BRL'}
+            { ' ' }
+          </span>
+        </div>
       </div>
     );
   }
