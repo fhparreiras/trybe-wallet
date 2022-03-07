@@ -100,7 +100,10 @@
 }
 
 .header-data-container {
-  font-size: 18px;
+  display: flex;
+  font-size: 15px;
   font-weight: 400;
+  justify-content: space-evenly;
+  max-width: 500px;
   padding-right: 10px;
 }

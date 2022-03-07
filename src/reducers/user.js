@@ -8,7 +8,13 @@
 // });
 import { SAVE_EMAIL } from '../actions';
 
-function user(state = {}, action) {
+const INITIAL_STATE = {
+  user: {
+    email: [],
+  },
+};
+
+function user(state = INITIAL_STATE, action) {
   switch (action.type) {
   case SAVE_EMAIL:
     return {
