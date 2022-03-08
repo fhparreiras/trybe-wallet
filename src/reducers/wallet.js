@@ -18,7 +18,8 @@ function wallet(state = INITIAL_STATE, action) {
   case GET_CURRENCIES_SUCCESS:
     return {
       ...state,
-      currencies: state.currencies.concat(action.payload),
+      // currencies: state.currencies.concat(action.payload),
+      currencies: action.payload,
     };
   case GET_CURRENCIES_ERROR:
     return {

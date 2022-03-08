@@ -119,7 +119,12 @@ class Wallet extends React.Component {
                 id="currency"
               >
                 {currencies.map((item, id) => (
-                  <option value={ item } key={ id } aria-label="currency-input">
+                  <option
+                    value={ item }
+                    key={ id }
+                    aria-label="currency-input"
+                    data-testid={ item }
+                  >
                     { item }
                   </option>
                 )) }
