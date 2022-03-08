@@ -17,7 +17,6 @@ class Wallet extends React.Component {
       method: 'Dinheiro',
       tag: 'Alimentação',
       description: '',
-      exchangeRates: '',
     };
   }
 
@@ -30,7 +29,7 @@ class Wallet extends React.Component {
 
   handleBtnAdd = async () => {
     const { dispatch } = this.props;
-    const { id, value, currency, method, tag, description, exchangeRates } = this.state;
+    const { id, value, currency, method, tag, description } = this.state;
     const currenciesData = await getCurrenciesData();
     this.handleConversion(currenciesData);
     dispatch(addExpense({
@@ -40,16 +39,15 @@ class Wallet extends React.Component {
       method,
       tag,
       description,
-      exchangeRates,
+      exchangeRates: currenciesData,
     }));
     this.setState({
       id: id + 1,
-      value: 0,
+      value: '',
       currency: 'BRL',
       method: 'Dinheiro',
       tag: 'Alimentação',
       description: '',
-      exchangeRates: '',
     });
   }
 
@@ -58,14 +56,12 @@ class Wallet extends React.Component {
     const currenciesArray = Object.entries(currenciesData);
     if (currency === 'BRL') {
       this.setState((prevState) => ({
-        exchangeRates: [currenciesData],
         valueReal: [...prevState.valueReal, value],
       }));
     } else {
       console.log(currenciesArray.find((item) => (
         item[0] === currency))[1].ask);
       this.setState((prevState) => ({
-        exchangeRates: [currenciesData],
         valueReal: [...prevState.valueReal, value * currenciesArray.find((item) => (
           item[0] === currency))[1].ask],
       }));
@@ -115,9 +111,10 @@ class Wallet extends React.Component {
                 data-testid="currency-input"
                 name="currency"
                 onChange={ this.handleChange }
+                id="currency"
               >
                 {currencies.map((item, id) => (
-                  <option value={ item } key={ id } aria-label="currency-input">
+                  <option value={ item } key={ id } id={ item } aria-label="currency-input">
                     { item }
                   </option>
                 )) }
@@ -128,6 +125,7 @@ class Wallet extends React.Component {
               <select
                 data-testid="method-input"
                 name="method"
+                id="method"
                 onChange={ this.handleChange }
               >
                 { paymentMethods.map((item, id) => (
@@ -142,6 +140,7 @@ class Wallet extends React.Component {
               <select
                 data-testid="tag-input"
                 name="tag"
+                id="tag"
                 onChange={ this.handleChange }
               >
                 { categories.map((item, id) => (
@@ -170,7 +169,7 @@ class Wallet extends React.Component {
 
 Wallet.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  email: PropTypes.arrayOf(PropTypes.string).isRequired,
+  email: PropTypes.string.isRequired,
   // expenses: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number,
   //   value: PropTypes.string,
   //   currency: PropTypes.string,
