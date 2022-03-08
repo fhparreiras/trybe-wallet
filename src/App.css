@@ -116,8 +116,11 @@
 
 .inputs-panel {
   align-items: center;
+  background-color: rgb(39, 174, 96);
   display: flex;
-  flex-basis: 100%;
+  font-weight: 900;
   height: 70px;
   justify-content: space-evenly;
+  margin: 0 auto;
+  width: 99vw;
 }

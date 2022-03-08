@@ -13,7 +13,7 @@ function wallet(state = INITIAL_STATE, action) {
   case ADD_EXPENSE:
     return {
       ...state,
-      expenses: action.payload,
+      expenses: [...state.expenses, action.payload],
     };
   case GET_CURRENCIES_SUCCESS:
     return {
