@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { arrayOf } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import walletLogo from '../img/cash-flow.png';
 import { categories, paymentMethods } from '../helpers/data';
@@ -171,14 +171,14 @@ class Wallet extends React.Component {
 Wallet.propTypes = {
   dispatch: PropTypes.func.isRequired,
   email: PropTypes.arrayOf(PropTypes.string).isRequired,
-  expenses: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number,
-    value: PropTypes.string,
-    currency: PropTypes.string,
-    method: PropTypes.string,
-    category: PropTypes.string,
-    description: PropTypes.string,
-    exchangeRates: arrayOf(PropTypes.objectOf(PropTypes.objectOf(PropTypes.string))),
-  })).isRequired,
+  // expenses: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number,
+  //   value: PropTypes.string,
+  //   currency: PropTypes.string,
+  //   method: PropTypes.string,
+  //   category: PropTypes.string,
+  //   description: PropTypes.string,
+  //   exchangeRates: arrayOf(PropTypes.objectOf(PropTypes.objectOf(PropTypes.string))),
+  // })).isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
