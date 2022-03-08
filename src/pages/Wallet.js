@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import walletLogo from '../img/cash-flow.png';
 import { categories, paymentMethods } from '../helpers/data';
-import { addExpense } from '../actions';
+import { addExpense, fetchCurrencies } from '../actions';
 import { getCurrenciesData } from '../services/currenciesAPI';
 
 class Wallet extends React.Component {
@@ -18,6 +18,11 @@ class Wallet extends React.Component {
       tag: 'Alimentação',
       description: '',
     };
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchCurrencies());
   }
 
   handleChange = (e) => {
