@@ -124,3 +124,11 @@
   margin: 0 auto;
   width: 99vw;
 }
+
+.table-header {
+  align-items: center;
+  display: flex;
+  height: 40px;
+  justify-content: space-around;
+  width: 100vw;
+}
