@@ -1,19 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { arrayOf } from 'prop-types';
 import { connect } from 'react-redux';
 import walletLogo from '../img/cash-flow.png';
 import { categories, paymentMethods } from '../helpers/data';
 import { addExpense } from '../actions';
+import { getCurrenciesData } from '../services/currenciesAPI';
 
 class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
+      id: 0,
       inputValue: 0,
       inputCurrency: 'BRL',
       inputMethod: 'Dinheiro',
       inputCategory: 'Alimentação',
       inputDescription: '',
+      exchangeRates: [],
     };
   }
 
@@ -24,17 +27,25 @@ class Wallet extends React.Component {
     });
   }
 
-  handleBtnAdd = () => {
+  handleBtnAdd = async () => {
     const { dispatch } = this.props;
+    const { id } = this.state;
+    const currenciesData = await getCurrenciesData();
+    console.log(currenciesData);
+    this.setState({
+      exchangeRates: [currenciesData],
+    });
     dispatch(addExpense({
       ...this.state,
     }));
     this.setState({
+      id: id + 1,
       inputValue: 0,
       inputCurrency: 'BRL',
       inputMethod: 'Dinheiro',
       inputCategory: 'Alimentação',
       inputDescription: '',
+      exchangeRates: [],
     });
   }
 
@@ -137,7 +148,14 @@ class Wallet extends React.Component {
 Wallet.propTypes = {
   dispatch: PropTypes.func.isRequired,
   email: PropTypes.arrayOf(PropTypes.string).isRequired,
-  expenses: PropTypes.arrayOf(PropTypes.number).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number,
+    inputValue: PropTypes.number,
+    inputCurrency: PropTypes.string,
+    inputMethod: PropTypes.string,
+    inputCategory: PropTypes.string,
+    inputDescription: PropTypes.string,
+    exchangeRates: arrayOf(PropTypes.objectOf(PropTypes.objectOf(PropTypes.string))),
+  })).isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

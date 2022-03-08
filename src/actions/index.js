@@ -1,5 +1,5 @@
 // Coloque aqui suas actions
-import getCurrencies from '../services/currenciesAPI';
+import { getCurrencies } from '../services/currenciesAPI';
 
 export const SAVE_EMAIL = 'SAVE_EMAIL';
 
@@ -15,6 +15,7 @@ export const addExpense = (expense) => ({
   payload: expense,
 });
 
+// Pega apenas os símbolos das cotações
 export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
 export const GET_CURRENCIES_SUCCESS = 'GET_CURRENCIES_SUCCESS';
 export const GET_CURRENCIES_ERROR = 'GET_CURRENCIES_ERROR';

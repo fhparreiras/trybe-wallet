@@ -2,7 +2,7 @@
 import { ADD_EXPENSE, GET_CURRENCIES_SUCCESS, GET_CURRENCIES_ERROR } from '../actions';
 
 const INITIAL_STATE = {
-  currencies: [],
+  currencies: ['BRL'],
   expenses: [],
   isFetching: false,
   errorMessage: '',
@@ -18,7 +18,7 @@ function wallet(state = INITIAL_STATE, action) {
   case GET_CURRENCIES_SUCCESS:
     return {
       ...state,
-      currencies: action.payload,
+      currencies: state.currencies.concat(action.payload),
     };
   case GET_CURRENCIES_ERROR:
     return {

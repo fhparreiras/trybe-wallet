@@ -1,8 +1,12 @@
-const getCurrencies = async () => {
+export const getCurrencies = async () => {
   const request = await fetch('https://economia.awesomeapi.com.br/json/all');
   const requestJson = await request.json();
-  const result = ['BRL', ...Object.keys(requestJson)];
+  const result = [...Object.keys(requestJson)];
   return result;
 };
 
-export default getCurrencies;
+export const getCurrenciesData = async () => {
+  const request = await fetch('https://economia.awesomeapi.com.br/json/all');
+  const requestJson = await request.json();
+  return requestJson;
+};
