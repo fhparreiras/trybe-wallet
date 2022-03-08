@@ -10,14 +10,14 @@ class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
+      valueReal: [0],
       id: 0,
-      inputValue: 0,
-      inputValueReal: 0,
-      inputCurrency: 'BRL',
-      inputMethod: 'Dinheiro',
-      inputCategory: 'Alimentação',
-      inputDescription: '',
-      exchangeRates: [],
+      value: 0,
+      currency: 'BRL',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      description: '',
+      exchangeRates: '',
     };
   }
 
@@ -30,52 +30,51 @@ class Wallet extends React.Component {
 
   handleBtnAdd = async () => {
     const { dispatch } = this.props;
-    const { id } = this.state;
+    const { id, value, currency, method, tag, description, exchangeRates } = this.state;
     const currenciesData = await getCurrenciesData();
     this.handleConversion(currenciesData);
     dispatch(addExpense({
-      ...this.state,
+      id,
+      value,
+      currency,
+      method,
+      tag,
+      description,
+      exchangeRates,
     }));
     this.setState({
       id: id + 1,
-      inputValue: 0,
-      inputValueReal: 0,
-      inputCurrency: 'BRL',
-      inputMethod: 'Dinheiro',
-      inputCategory: 'Alimentação',
-      inputDescription: '',
-      exchangeRates: [],
+      value: 0,
+      currency: 'BRL',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      description: '',
+      exchangeRates: '',
     });
   }
 
   handleConversion(currenciesData) {
-    const { inputCurrency, inputValue } = this.state;
+    const { currency, value } = this.state;
     const currenciesArray = Object.entries(currenciesData);
-    if (inputCurrency === 'BRL') {
-      this.setState({
+    if (currency === 'BRL') {
+      this.setState((prevState) => ({
         exchangeRates: [currenciesData],
-        inputValueReal: inputValue,
-      });
+        valueReal: [...prevState.valueReal, value],
+      }));
     } else {
-      // console.log(currenciesArray);
-      // console.log(currenciesArray.find((currency) => (
-      //   currency[0] === inputCurrency))[1].ask);
-      this.setState({
+      console.log(currenciesArray.find((item) => (
+        item[0] === currency))[1].ask);
+      this.setState((prevState) => ({
         exchangeRates: [currenciesData],
-        inputValueReal: inputValue * currenciesArray
-          .find((currency) => (
-            currency[0] === inputCurrency))[1].ask,
-      });
+        valueReal: [...prevState.valueReal, value * currenciesArray.find((item) => (
+          item[0] === currency))[1].ask],
+      }));
     }
   }
 
   render() {
-    // const ask = '5.6183';
-    // const brl = '100';
-    // const teste = ask * brl;
-    // console.log(teste);
-    const { email, expenses, currencies } = this.props;
-    const { inputValue } = this.state;
+    const { email, currencies } = this.props;
+    const { value, valueReal } = this.state;
     return (
       <div className="header-master">
         <div className="container-header">
@@ -88,11 +87,10 @@ class Wallet extends React.Component {
             </span>
             <span data-testid="total-field">
               { ' Despesa Total: R$ '}
-              {/* símbolo moeda */}
               { ' ' }
-              { expenses.length === 0 ? 0
-                : expenses.reduce((acum, curr) => (
-                  parseFloat(acum) + parseFloat(curr.inputValueReal)), 0).toFixed(2)}
+              { valueReal.length === 0 ? 0
+                : valueReal.reduce((acum, curr) => (
+                  parseFloat(acum) + parseFloat(curr)), 0).toFixed(2)}
               { ' ' }
             </span>
             <span data-testid="header-currency-field">
@@ -101,21 +99,21 @@ class Wallet extends React.Component {
             </span>
           </div>
           <form className="inputs-panel">
-            <label htmlFor="inputValue">
+            <label htmlFor="value">
               {'Valor: '}
               <input
                 type="number"
                 data-testid="value-input"
-                name="inputValue"
-                value={ inputValue }
+                name="value"
+                value={ value }
                 onChange={ this.handleChange }
               />
             </label>
-            <label htmlFor="inputCurrency">
+            <label htmlFor="currency">
               {'Moeda: '}
               <select
                 data-testid="currency-input"
-                name="inputCurrency"
+                name="currency"
                 onChange={ this.handleChange }
               >
                 {currencies.map((item, id) => (
@@ -125,11 +123,11 @@ class Wallet extends React.Component {
                 )) }
               </select>
             </label>
-            <label htmlFor="inputMethod">
+            <label htmlFor="method">
               {'Método de pagamento: '}
               <select
                 data-testid="method-input"
-                name="inputMethod"
+                name="method"
                 onChange={ this.handleChange }
               >
                 { paymentMethods.map((item, id) => (
@@ -139,11 +137,11 @@ class Wallet extends React.Component {
                 ))}
               </select>
             </label>
-            <label htmlFor="inputCategory">
+            <label htmlFor="tag">
               {'Categoria: '}
               <select
                 data-testid="tag-input"
-                name="inputCategory"
+                name="tag"
                 onChange={ this.handleChange }
               >
                 { categories.map((item, id) => (
@@ -153,12 +151,12 @@ class Wallet extends React.Component {
                 ))}
               </select>
             </label>
-            <label htmlFor="inputDescription">
+            <label htmlFor="description">
               { 'Descrição: '}
               <input
                 type="text"
                 data-testid="description-input"
-                name="inputDescription"
+                name="description"
                 onChange={ this.handleChange }
               />
             </label>
@@ -174,11 +172,11 @@ Wallet.propTypes = {
   dispatch: PropTypes.func.isRequired,
   email: PropTypes.arrayOf(PropTypes.string).isRequired,
   expenses: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number,
-    inputValue: PropTypes.string,
-    inputCurrency: PropTypes.string,
-    inputMethod: PropTypes.string,
-    inputCategory: PropTypes.string,
-    inputDescription: PropTypes.string,
+    value: PropTypes.string,
+    currency: PropTypes.string,
+    method: PropTypes.string,
+    category: PropTypes.string,
+    description: PropTypes.string,
     exchangeRates: arrayOf(PropTypes.objectOf(PropTypes.objectOf(PropTypes.string))),
   })).isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
