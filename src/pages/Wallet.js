@@ -12,6 +12,7 @@ class Wallet extends React.Component {
     this.state = {
       id: 0,
       inputValue: 0,
+      inputValueReal: 0,
       inputCurrency: 'BRL',
       inputMethod: 'Dinheiro',
       inputCategory: 'Alimentação',
@@ -31,16 +32,14 @@ class Wallet extends React.Component {
     const { dispatch } = this.props;
     const { id } = this.state;
     const currenciesData = await getCurrenciesData();
-    console.log(currenciesData);
-    this.setState({
-      exchangeRates: [currenciesData],
-    });
+    this.handleConversion(currenciesData);
     dispatch(addExpense({
       ...this.state,
     }));
     this.setState({
       id: id + 1,
       inputValue: 0,
+      inputValueReal: 0,
       inputCurrency: 'BRL',
       inputMethod: 'Dinheiro',
       inputCategory: 'Alimentação',
@@ -49,7 +48,32 @@ class Wallet extends React.Component {
     });
   }
 
+  handleConversion(currenciesData) {
+    const { inputCurrency, inputValue } = this.state;
+    const currenciesArray = Object.entries(currenciesData);
+    if (inputCurrency === 'BRL') {
+      this.setState({
+        exchangeRates: [currenciesData],
+        inputValueReal: inputValue,
+      });
+    } else {
+      // console.log(currenciesArray);
+      // console.log(currenciesArray.find((currency) => (
+      //   currency[0] === inputCurrency))[1].ask);
+      this.setState({
+        exchangeRates: [currenciesData],
+        inputValueReal: inputValue * currenciesArray
+          .find((currency) => (
+            currency[0] === inputCurrency))[1].ask,
+      });
+    }
+  }
+
   render() {
+    // const ask = '5.6183';
+    // const brl = '100';
+    // const teste = ask * brl;
+    // console.log(teste);
     const { email, expenses, currencies } = this.props;
     const { inputValue } = this.state;
     return (
@@ -68,7 +92,7 @@ class Wallet extends React.Component {
               { ' ' }
               { expenses.length === 0 ? 0
                 : expenses.reduce((acum, curr) => (
-                  acum + parseInt(curr.inputValue, 10)), 0)}
+                  parseFloat(acum) + parseFloat(curr.inputValueReal)), 0).toFixed(2)}
               { ' ' }
             </span>
             <span data-testid="header-currency-field">
@@ -150,7 +174,7 @@ Wallet.propTypes = {
   dispatch: PropTypes.func.isRequired,
   email: PropTypes.arrayOf(PropTypes.string).isRequired,
   expenses: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number,
-    inputValue: PropTypes.number,
+    inputValue: PropTypes.string,
     inputCurrency: PropTypes.string,
     inputMethod: PropTypes.string,
     inputCategory: PropTypes.string,
