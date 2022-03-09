@@ -110,6 +110,7 @@ class Wallet extends React.Component {
                 name="value"
                 value={ value }
                 onChange={ this.handleChange }
+                required
               />
             </label>
             <label htmlFor="currency">
@@ -167,6 +168,7 @@ class Wallet extends React.Component {
               <input
                 type="text"
                 data-testid="description-input"
+                maxLength="26"
                 name="description"
                 onChange={ this.handleChange }
               />

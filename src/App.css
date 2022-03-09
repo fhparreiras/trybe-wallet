@@ -130,5 +130,19 @@
   display: flex;
   height: 40px;
   justify-content: space-around;
+  padding-top: 15px;
   width: 100vw;
 }
+
+.table-body {
+  align-items: center;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  width: 100vw;
+}
+
+.table-body td {
+  text-align: center;
+}
+

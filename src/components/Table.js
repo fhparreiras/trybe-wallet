@@ -10,15 +10,15 @@ class Table extends React.Component {
       <table>
         <thead>
           <tr className="table-header">
-            <th>Descrição</th>
-            <th>Tag</th>
-            <th>Método de pagamento</th>
-            <th>Valor</th>
-            <th>Moeda</th>
-            <th>Câmbio utilizado</th>
-            <th>Valor convertido</th>
-            <th>Moeda de conversão</th>
-            <th>Editar/Excluir</th>
+            <th width="20%">Descrição</th>
+            <th width="10%">Tag</th>
+            <th width="15%">Método de pagamento</th>
+            <th width="10%">Valor</th>
+            <th width="5%">Moeda</th>
+            <th width="7%">Câmbio utilizado</th>
+            <th width="15%">Valor convertido</th>
+            <th width="7%">Moeda de conversão</th>
+            <th width="10%">Editar/Excluir</th>
           </tr>
         </thead>
         <tbody>
@@ -27,39 +27,25 @@ class Table extends React.Component {
             description,
             tag,
             method,
-            exchangeRates,
+            // exchangeRates,
             value,
-          }) => {
-            const currencyExchange = exchangeRates.currency.ask;
-            return (
-              <tr key={ id }>
-                <td>{ description }</td>
-                <td>
-                  { tag }
-                </td>
-                <td>
-                  { method }
-                </td>
-                <td>
-                  { value }
-                </td>
-                <td>
-                  { exchangeRates.currency.name }
-                </td>
-                <td>
-                  { currencyExchange }
-                </td>
-                <td>
-                  { value * currencyExchange }
-                </td>
-                <td>Real</td>
-                <td>
-                  <button type="button">Editar</button>
-                  <button type="button" data-testid="delete-btn">Excluir</button>
-                </td>
-              </tr>
-            );
-          })}
+          }) => (
+            // const currencyExchange = exchangeRates.currency.ask;
+            <tr key={ id } className="table-body">
+              <td width="20%">{ description }</td>
+              <td width="10%">{ tag }</td>
+              <td width="15%">{ method }</td>
+              <td width="10%">{ value }</td>
+              <td width="5%">{/* { exchangeRates.currency.name } */}</td>
+              <td width="7%">{/* { currencyExchange } */}</td>
+              <td width="15%">{/* { value * currencyExchange } */}</td>
+              <td width="7%">Real</td>
+              <td width="10%">
+                <button type="button">Editar</button>
+                <button type="button" data-testid="delete-btn">Excluir</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     );
