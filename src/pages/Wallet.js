@@ -1,10 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import walletLogo from '../img/cash-flow.png';
 import { categories, paymentMethods } from '../helpers/data';
 import { addExpense, fetchCurrencies } from '../actions';
 import { getCurrenciesData } from '../services/currenciesAPI';
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
   constructor() {
@@ -12,7 +13,7 @@ class Wallet extends React.Component {
     this.state = {
       valueReal: [0],
       id: 0,
-      value: 0,
+      value: '',
       currency: 'BRL',
       method: 'Dinheiro',
       tag: 'Alimentação',
@@ -46,6 +47,7 @@ class Wallet extends React.Component {
       description,
       exchangeRates: currenciesData,
     }));
+    // this.addTableRow();
     this.setState({
       id: id + 1,
       value: '',
@@ -64,8 +66,8 @@ class Wallet extends React.Component {
         valueReal: [...prevState.valueReal, value],
       }));
     } else {
-      console.log(currenciesArray.find((item) => (
-        item[0] === currency))[1].ask);
+      // console.log(currenciesArray.find((item) => (
+      //   item[0] === currency))[1].ask);
       this.setState((prevState) => ({
         valueReal: [...prevState.valueReal, value * currenciesArray.find((item) => (
           item[0] === currency))[1].ask],
@@ -171,19 +173,7 @@ class Wallet extends React.Component {
             </label>
             <button type="button" onClick={ this.handleBtnAdd }>Adicionar despesa</button>
           </form>
-          <table>
-            <tr className="table-header">
-              <th>Descrição</th>
-              <th>Tag</th>
-              <th>Método de pagamento</th>
-              <th>Valor</th>
-              <th>Moeda</th>
-              <th>Câmbio utilizado</th>
-              <th>Valor convertido</th>
-              <th>Moeda de conversão</th>
-              <th>Editar/Excluir</th>
-            </tr>
-          </table>
+          <Table />
         </div>
       </div>
     );
